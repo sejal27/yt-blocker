@@ -67,7 +67,7 @@ h2 {
 }
 
 input:checked + .slider {
-  background-color: #065fd4;
+  background-color: #ff7a59;
 }
 
 input:checked + .slider:before {
@@ -78,4 +78,23 @@ input:checked + .slider:before {
   text-align: center;
   color: #606060;
   font-size: 14px;
+}
+
+.user-info {
+  background-color: #f8f8f8;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.user-info h3 {
+  color: #0f0f0f;
+  margin: 0 0 8px 0;
+  font-size: 14px;
+}
+
+.user-info p {
+  margin: 4px 0;
+  font-size: 13px;
+  color: #606060;
 } 

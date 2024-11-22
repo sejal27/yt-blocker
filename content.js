@@ -1,20 +1,56 @@
 let blockShorts = false;
 let blockPlayables = false;
 
-// Load saved preferences
-chrome.storage.sync.get(['blockShorts', 'blockPlayables'], (result) => {
-  blockShorts = result.blockShorts || false;
-  blockPlayables = result.blockPlayables || false;
-  applyPreferences();
-});
+function getUserInfo() {
+  const userInfo = {
+    name: 'Not logged in',
+    restrictionLevel: 'Unknown'
+  };
 
-// Listen for preference updates
+  // Check if user is logged in
+  const avatarButton = document.querySelector('button#avatar-btn');
+  if (!avatarButton) {
+    return userInfo;
+  }
+
+  // Get channel name
+  const channelNameElement = document.querySelector('yt-formatted-string.ytd-channel-name');
+  if (channelNameElement) {
+    userInfo.name = channelNameElement.textContent.trim();
+  }
+
+  // Check for restriction indicators
+  const restrictedMode = document.querySelector('ytd-toggle-button-renderer[is-restricted-mode]');
+  const kidsMode = document.querySelector('ytd-app[is-kids-page]');
+  
+  if (restrictedMode) {
+    userInfo.restrictionLevel = 'Restricted Mode';
+  } else if (kidsMode) {
+    userInfo.restrictionLevel = 'Kids Mode';
+  } else {
+    userInfo.restrictionLevel = 'Standard Mode';
+  }
+
+  return userInfo;
+}
+
+// Message listener for user info requests
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === 'getUserInfo') {
+    sendResponse(getUserInfo());
+  }
   if (request.action === 'updatePreferences') {
     blockShorts = request.blockShorts;
     blockPlayables = request.blockPlayables;
     applyPreferences();
   }
+});
+
+// Load saved preferences
+chrome.storage.sync.get(['blockShorts', 'blockPlayables'], (result) => {
+  blockShorts = result.blockShorts || false;
+  blockPlayables = result.blockPlayables || false;
+  applyPreferences();
 });
 
 function applyPreferences() {
@@ -56,4 +92,7 @@ function applyPreferences() {
 // Apply preferences on page load and DOM changes
 applyPreferences();
 const observer = new MutationObserver(() => applyPreferences());
-observer.observe(document.body, { childList: true, subtree: true }); 
+observer.observe(document.body, { childList: true, subtree: true });
+
+// Add this line at the end
+getUserInfo(); 
