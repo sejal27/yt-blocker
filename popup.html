@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>YouTube Features Controller</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <div id="not-youtube" style="display: none;">
+      <p>This extension only works on YouTube.com</p>
+    </div>
+    
+    <div id="youtube-controls">
+      <h2>YouTube Controls</h2>
+      
+      <div class="control-item">
+        <label class="switch">
+          <input type="checkbox" id="shorts-toggle">
+          <span class="slider"></span>
+        </label>
+        <span class="label">Block Shorts</span>
+      </div>
+
+      <div class="control-item">
+        <label class="switch">
+          <input type="checkbox" id="playables-toggle">
+          <span class="slider"></span>
+        </label>
+        <span class="label">Block Playables</span>
+      </div>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html> 

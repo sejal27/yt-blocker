@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Features Controller",
+  "version": "1.0",
+  "description": "Control YouTube Shorts and Playables visibility",
+  "permissions": ["storage", "activeTab"],
+  "host_permissions": ["*://*.youtube.com/*"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["content.js"]
+    }
+  ]
+} 
